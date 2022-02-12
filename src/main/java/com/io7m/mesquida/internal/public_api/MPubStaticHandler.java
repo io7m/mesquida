@@ -1,0 +1,66 @@
+/*
+ * Copyright © 2022 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+package com.io7m.mesquida.internal.public_api;
+
+import com.io7m.mesquida.internal.MResources;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+/**
+ * A server static file handler.
+ */
+
+public final class MPubStaticHandler extends HttpServlet
+{
+  /**
+   * Construct a handler.
+   */
+
+  public MPubStaticHandler()
+  {
+
+  }
+
+  @Override
+  public void service(
+    final HttpServletRequest request,
+    final HttpServletResponse response)
+    throws IOException
+  {
+    switch (request.getPathInfo()) {
+      case "/style.css": {
+        response.setContentType("text/css");
+        response.setStatus(200);
+        MResources.copyOut(response.getOutputStream(), "style.css");
+        break;
+      }
+      default: {
+        response.setContentType("text/plain");
+        response.setStatus(404);
+        try (var outputStream = response.getOutputStream()) {
+          outputStream.print(404);
+          outputStream.print(' ');
+          outputStream.println("Not found");
+          outputStream.flush();
+        }
+      }
+    }
+  }
+}

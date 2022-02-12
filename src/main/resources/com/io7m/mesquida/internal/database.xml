@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Schemas xmlns="urn:com.io7m.trasco.database.statements:1:0">
+  <Schema versionCurrent="0">
+
+    <Comment>
+      The schema version table stores the current version of the database schema. Implementations are expected to query
+      this table on connecting to the database in order to ensure that the calling code is compatible with the tables in
+      the database.
+    </Comment>
+
+    <Statement><![CDATA[
+create table schema_version (
+  version_lock   char(1) not null default 'X',
+  version_number bigint  not null,
+
+  constraint check_lock_primary primary key (version_lock),
+  constraint check_lock_locked check (version_lock = 'X')
+)
+]]>
+    </Statement>
+  </Schema>
+
+  <Schema versionCurrent="1">
+
+    <Comment>
+      The users table contains authentication information for users.
+    </Comment>
+
+    <Statement><![CDATA[
+create table users (
+  user_id         integer      not null generated always as identity primary key,
+  user_name       varchar(64)  not null,
+  user_pass_hash  varchar(256) not null,
+  user_pass_salt  varchar(256) not null,
+  user_pass_algo  varchar(32)  not null,
+
+  constraint unique_name unique (user_name)
+)
+]]></Statement>
+
+    <Comment>
+      The streams table lists the managed streams.
+    </Comment>
+
+    <Statement><![CDATA[
+create table streams (
+  stream_id     integer      not null generated always as identity primary key,
+  stream_name   varchar(64)  not null,
+  stream_title  varchar(256) not null,
+  stream_owner  integer      not null,
+
+  constraint unique_stream_name unique (stream_name),
+  constraint stream_owner_fk foreign key (stream_owner) references users (user_id) on delete cascade
+)
+]]></Statement>
+
+    <Comment>
+      The streams address table lists the addresses for configured streams.
+    </Comment>
+
+    <Statement><![CDATA[
+create table stream_addresses (
+  stream_address_id   integer      not null generated always as identity primary key,
+  stream_reference    integer      not null,
+  stream_protocol     varchar(8)   not null,
+  stream_url          varchar(256) not null,
+
+  constraint unique_stream_url unique (stream_url),
+  constraint unique_protocol   unique (stream_reference, stream_protocol),
+
+  constraint stream_fk foreign key (stream_reference) references streams (stream_id) on delete cascade
+)
+]]></Statement>
+
+    <Comment>
+      The message_queue table contains the message queue configuration.
+    </Comment>
+
+    <Statement><![CDATA[
+create table message_queue (
+  mq_lock     char(1) not null default 'X',
+  mq_url      varchar(256) not null,
+  mq_user     varchar(256) not null,
+  mq_password varchar(256) not null,
+  mq_topic    varchar(256) not null,
+  mq_enabled  boolean      not null,
+
+  constraint check_mq_lock_primary primary key (mq_lock),
+  constraint check_mq_lock_locked check (mq_lock = 'X')
+)
+]]>
+    </Statement>
+
+    <Statement><![CDATA[
+insert into message_queue values ('X', '', '', '', '', false)
+]]>
+    </Statement>
+
+  </Schema>
+</Schemas>
