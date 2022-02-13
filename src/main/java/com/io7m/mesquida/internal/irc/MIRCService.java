@@ -206,6 +206,10 @@ public final class MIRCService extends ListenerAdapter
   {
     final var tlsFactory = new UtilSSLSocketFactory();
 
+    if (this.configuration.ircUnsafeTrust()) {
+      tlsFactory.trustAllCertificates();
+    }
+
     final var builder = new Configuration.Builder();
     builder.addServer(
       this.configuration.ircHost(),

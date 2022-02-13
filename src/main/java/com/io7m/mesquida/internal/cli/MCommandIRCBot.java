@@ -86,6 +86,12 @@ public final class MCommandIRCBot extends CLPAbstractCommand
     required = true)
   private String ircChannel;
 
+  @Parameter(
+    names = "--ircTrust",
+    description = "Trust all IRC server certificates (unsafe!)",
+    required = false)
+  private boolean ircTrust;
+
   /**
    * Construct a command.
    *
@@ -111,7 +117,8 @@ public final class MCommandIRCBot extends CLPAbstractCommand
         this.ircPort,
         this.ircChannel.replace("\\", ""),
         this.ircUser,
-        this.ircUser
+        this.ircUser,
+        this.ircTrust
       );
 
     try (var ignored = MIRCService.create(configuration)) {

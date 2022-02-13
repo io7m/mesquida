@@ -22,15 +22,16 @@ import java.util.Objects;
 /**
  * The IRC service configuration.
  *
- * @param brokerPass  The message broker password
- * @param brokerTopic The message broker topic
- * @param brokerURL   The message broker URL
- * @param brokerUser  The message broker user
- * @param ircChannel  The IRC channel name
- * @param ircHost     The IRC host
- * @param ircNickName The IRC nickname
- * @param ircPort     The IRC port
- * @param ircUserName The IRC user name
+ * @param brokerPass     The message broker password
+ * @param brokerTopic    The message broker topic
+ * @param brokerURL      The message broker URL
+ * @param brokerUser     The message broker user
+ * @param ircChannel     The IRC channel name
+ * @param ircHost        The IRC host
+ * @param ircNickName    The IRC nickname
+ * @param ircPort        The IRC port
+ * @param ircUserName    The IRC user name
+ * @param ircUnsafeTrust Trust all certificates (unsafe!)
  */
 
 public record MIRCServiceConfiguration(
@@ -42,20 +43,22 @@ public record MIRCServiceConfiguration(
   int ircPort,
   String ircChannel,
   String ircUserName,
-  String ircNickName)
+  String ircNickName,
+  boolean ircUnsafeTrust)
 {
   /**
    * The IRC service configuration.
    *
-   * @param brokerPass  The message broker password
-   * @param brokerTopic The message broker topic
-   * @param brokerURL   The message broker URL
-   * @param brokerUser  The message broker user
-   * @param ircChannel  The IRC channel name
-   * @param ircHost     The IRC host
-   * @param ircNickName The IRC nickname
-   * @param ircPort     The IRC port
-   * @param ircUserName The IRC user name
+   * @param brokerPass     The message broker password
+   * @param brokerTopic    The message broker topic
+   * @param brokerURL      The message broker URL
+   * @param brokerUser     The message broker user
+   * @param ircChannel     The IRC channel name
+   * @param ircHost        The IRC host
+   * @param ircNickName    The IRC nickname
+   * @param ircPort        The IRC port
+   * @param ircUserName    The IRC user name
+   * @param ircUnsafeTrust Trust all certificates (unsafe!)
    */
 
   public MIRCServiceConfiguration
