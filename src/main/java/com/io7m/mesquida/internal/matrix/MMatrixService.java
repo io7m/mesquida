@@ -324,6 +324,7 @@ public final class MMatrixService implements AutoCloseable, Runnable
     connections.setClientID(UUID.randomUUID().toString());
     connections.setUser(this.configuration.brokerUser());
     connections.setPassword(this.configuration.brokerPass());
+    connections.setReconnectAttempts(-1);
 
     final var topicConnection =
       this.resources.add(connections.createTopicConnection());
