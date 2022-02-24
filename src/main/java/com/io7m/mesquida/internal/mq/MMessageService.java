@@ -247,6 +247,7 @@ public final class MMessageService implements AutoCloseable, Runnable
     connections.setClientID(UUID.randomUUID().toString());
     connections.setUser(brokerConfiguration.brokerUser);
     connections.setPassword(brokerConfiguration.brokerPass);
+    connections.setReconnectAttempts(-1);
 
     final var topicConnection =
       this.resources.add(connections.createTopicConnection());
