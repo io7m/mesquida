@@ -12,7 +12,7 @@
 
   <groupId>com.io7m.mesquida</groupId>
   <artifactId>com.io7m.mesquida</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>jar</packaging>
 
   <description>Stream box</description>
