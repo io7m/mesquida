@@ -88,10 +88,11 @@ public final class MPrivStreamDeleteHandler extends MPrivAuthenticatedHandler
       final var context =
         DSL.using(connection, SQLDialect.DERBY);
 
-      try (var query =
-             context.deleteFrom(STREAMS).where(STREAMS.STREAM_ID.eq(command.id))) {
-        query.execute();
-      }
+      final var query =
+        context.deleteFrom(STREAMS)
+          .where(STREAMS.STREAM_ID.eq(command.id));
+
+      query.execute();
 
       connection.commit();
     } catch (final SQLException e) {
