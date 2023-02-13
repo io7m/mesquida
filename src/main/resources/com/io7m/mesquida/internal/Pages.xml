@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+  <entry key="mainPage"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+    <title>{0}</title>
+  </head>
+  <body>
+    <div id="main">
+      <h2>{0}</h2>
+      {1}
+    </div>
+  </body>
+</html>]]></entry>
+
+  <entry key="streamForm"><![CDATA[
+<div class="streamForm">
+  <h4>{0}</h4>
+  <form action="/stream-edit/" method="post">
+    Title <input type="text" name="streamTitle" value="{1}" />
+    <input type="hidden" name="streamName" value="{0}" />
+    <input type="submit" value="Update" />
+  </form>
+</div>
+]]></entry>
+
+  <entry key="loginPage"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+    <title>{0}</title>
+  </head>
+  <body>
+    <div id="main">
+      <h1>{0}</h1>
+      <form action="/login/" method="post">
+        Username <input type="text" name="user" />
+        Password <input type="password" name="password" />
+        <input type="submit" value="Log In" />
+      </form>
+    </div>
+  </body>
+</html>]]></entry>
+
+  <entry key="errorPage"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="/static/style.css"/>
+    <title>{0}: Error {1}</title>
+  </head>
+  <body>
+    <div id="main">
+      <h1>{0}</h1>
+      <h2>Error {1}</h2>
+      <p>{2}</p>
+    </div>
+  </body>
+</html>]]></entry>
+
+</properties>

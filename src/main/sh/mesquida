@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ -z "${MESQUIDA_HOME}" ]
+then
+  echo "MESQUIDA_HOME is unset" 1>&2
+  exit 1
+fi
+
+exec /usr/bin/env java \
+-cp "${MESQUIDA_HOME}/lib/mesquida.jar" \
+com.io7m.mesquida.Main \
+"$@"

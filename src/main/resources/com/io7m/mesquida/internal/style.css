@@ -1,0 +1,34 @@
+#main {
+  margin-top: 2em;
+  margin-left: 2em;
+  width: 40em;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-gap: 16px;
+}
+
+label {
+  grid-column: 1 / 2;
+}
+
+input {
+  grid-column: 2 / 3;
+}
+
+button {
+  grid-column: 2 / 3;
+  height: 2.4em;
+}
+
+.streamLinks {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-gap: 16px;
+}
+
+.streamLinkList {
+  grid-column: 2 / 3;
+}
