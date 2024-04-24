@@ -16,6 +16,7 @@
 
 package com.io7m.mesquida.internal.database;
 
+import com.io7m.trasco.api.TrArguments;
 import com.io7m.trasco.api.TrEventExecutingSQL;
 import com.io7m.trasco.api.TrEventType;
 import com.io7m.trasco.api.TrEventUpgrading;
@@ -97,6 +98,7 @@ public final class MDatabase implements Closeable
           MDatabase::showEvent,
           revisions,
           configuration.upgrade() ? PERFORM_UPGRADES : FAIL_INSTEAD_OF_UPGRADING,
+          TrArguments.empty(),
           connection
         )
       ).execute();
