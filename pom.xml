@@ -26,7 +26,7 @@
     <io7m.api.previousVersion>0.0.1-SNAPSHOT</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
     <jackson.version>2.16.1</jackson.version>
-    <jetty.version>11.0.19</jetty.version>
+    <jetty.version>11.0.20</jetty.version>
     <jooq.version>3.19.7</jooq.version>
     <junit.version>5.10.2</junit.version>
     <org.apache.derby.version>10.17.1.0</org.apache.derby.version>
