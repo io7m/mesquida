@@ -28,7 +28,7 @@
     <jackson.version>2.16.1</jackson.version>
     <jetty.version>11.0.19</jetty.version>
     <jooq.version>3.19.7</jooq.version>
-    <junit.version>5.10.1</junit.version>
+    <junit.version>5.10.2</junit.version>
     <org.apache.derby.version>10.17.1.0</org.apache.derby.version>
 
     <!-- https://issues.apache.org/jira/browse/MDEP-774 -->
