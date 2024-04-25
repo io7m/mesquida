@@ -13,26 +13,39 @@
   <groupId>com.io7m.mesquida</groupId>
   <artifactId>com.io7m.mesquida</artifactId>
   <version>0.0.3-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <description>Stream box</description>
   <name>com.io7m.mesquida</name>
   <url>https://www.github.com/io7m/mesquida</url>
 
+  <modules>
+    <module>com.io7m.mesquida.main</module>
+    <module>com.io7m.mesquida.oci</module>
+  </modules>
+
   <properties>
-    <artemis.version>2.31.2</artemis.version>
-    <com.io7m.jxtrand.version>2.0.0</com.io7m.jxtrand.version>
-    <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
+    <!-- Configuration -->
+    <!-- https://issues.apache.org/jira/browse/MDEP-774 -->
+    <mdep.analyze.skip>true</mdep.analyze.skip>
     <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
-    <jackson.version>2.16.1</jackson.version>
+
+    <!-- io7m dependencies. -->
+    <com.io7m.jxtrand.version>2.0.0</com.io7m.jxtrand.version>
+    <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
+
+    <!-- Third-party dependencies. -->
+    <artemis.version>2.33.0</artemis.version>
+    <jackson.version>2.17.0</jackson.version>
     <jetty.version>11.0.20</jetty.version>
     <jooq.version>3.19.7</jooq.version>
     <junit.version>5.10.2</junit.version>
     <org.apache.derby.version>10.17.1.0</org.apache.derby.version>
 
-    <!-- https://issues.apache.org/jira/browse/MDEP-774 -->
-    <mdep.analyze.skip>true</mdep.analyze.skip>
+    <!-- Container dependencies. -->
+    <com.io7m.oci.versionAlpine>3.18.2</com.io7m.oci.versionAlpine>
+    <com.io7m.oci.versionTemurin>21_35-jre-alpine</com.io7m.oci.versionTemurin>
   </properties>
 
   <licenses>
@@ -79,343 +92,206 @@
     <url>https://github.com/mesquida/actions</url>
   </ciManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.4.14</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.sun.mail</groupId>
-          <artifactId>javax.mail</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.5.6</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>2.0.13</version>
-    </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.13</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>artemis-core-client</artifactId>
-      <version>${artemis.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>artemis-commons</artifactId>
-      <version>${artemis.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>artemis-jms-client</artifactId>
-      <version>${artemis.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-jms_2.0_spec</artifactId>
-      <version>1.0-alpha-2</version>
-    </dependency>
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>artemis-core-client</artifactId>
+        <version>${artemis.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>artemis-commons</artifactId>
+        <version>${artemis.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>artemis-jms-client</artifactId>
+        <version>${artemis.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-jms_2.0_spec</artifactId>
+        <version>1.0-alpha-2</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.pircbotx</groupId>
-      <artifactId>pircbotx</artifactId>
-      <version>2.1</version>
-    </dependency>
+      <dependency>
+        <groupId>org.pircbotx</groupId>
+        <artifactId>pircbotx</artifactId>
+        <version>2.1</version>
+      </dependency>
 
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derbyclient</artifactId>
-      <version>${org.apache.derby.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derbytools</artifactId>
-      <version>${org.apache.derby.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derbynet</artifactId>
-      <version>${org.apache.derby.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbyclient</artifactId>
+        <version>${org.apache.derby.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbytools</artifactId>
+        <version>${org.apache.derby.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derbynet</artifactId>
+        <version>${org.apache.derby.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-text</artifactId>
-      <version>1.11.0</version>
-    </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-text</artifactId>
+        <version>1.12.0</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq</artifactId>
-      <version>${jooq.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>org.jooq</groupId>
+        <artifactId>jooq</artifactId>
+        <version>${jooq.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>com.io7m.trasco</groupId>
-      <artifactId>com.io7m.trasco.api</artifactId>
-      <version>${com.io7m.trasco.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.trasco</groupId>
-      <artifactId>com.io7m.trasco.vanilla</artifactId>
-      <version>${com.io7m.trasco.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.trasco</groupId>
-      <artifactId>com.io7m.trasco.xml.schemas</artifactId>
-      <version>${com.io7m.trasco.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>com.io7m.trasco</groupId>
+        <artifactId>com.io7m.trasco.api</artifactId>
+        <version>${com.io7m.trasco.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.trasco</groupId>
+        <artifactId>com.io7m.trasco.vanilla</artifactId>
+        <version>${com.io7m.trasco.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.trasco</groupId>
+        <artifactId>com.io7m.trasco.xml.schemas</artifactId>
+        <version>${com.io7m.trasco.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>com.io7m.claypot</groupId>
-      <artifactId>com.io7m.claypot.core</artifactId>
-      <version>0.0.8</version>
-    </dependency>
+      <dependency>
+        <groupId>com.io7m.claypot</groupId>
+        <artifactId>com.io7m.claypot.core</artifactId>
+        <version>0.0.8</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-jmx</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-jmx</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>com.io7m.jxtrand</groupId>
-      <artifactId>com.io7m.jxtrand.vanilla</artifactId>
-      <version>${com.io7m.jxtrand.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jxtrand</groupId>
-      <artifactId>com.io7m.jxtrand.api</artifactId>
-      <version>${com.io7m.jxtrand.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>com.io7m.jxtrand</groupId>
+        <artifactId>com.io7m.jxtrand.vanilla</artifactId>
+        <version>${com.io7m.jxtrand.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jxtrand</groupId>
+        <artifactId>com.io7m.jxtrand.api</artifactId>
+        <version>${com.io7m.jxtrand.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>com.io7m.dixmont</groupId>
-      <artifactId>com.io7m.dixmont.core</artifactId>
-      <version>1.0.0</version>
-    </dependency>
+      <dependency>
+        <groupId>com.io7m.dixmont</groupId>
+        <artifactId>com.io7m.dixmont.core</artifactId>
+        <version>1.0.0</version>
+      </dependency>
 
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.16.1</version>
-    </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.16.1</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
 
-    <dependency>
-      <groupId>com.io7m.junreachable</groupId>
-      <artifactId>com.io7m.junreachable.core</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jmulticlose</groupId>
-      <artifactId>com.io7m.jmulticlose.core</artifactId>
-      <version>1.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jproperties</groupId>
-      <artifactId>com.io7m.jproperties.core</artifactId>
-      <version>3.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jdeferthrow</groupId>
-      <artifactId>com.io7m.jdeferthrow.core</artifactId>
-      <version>1.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.annotation.bundle</artifactId>
-      <version>2.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.annotation.versioning</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-  </dependencies>
+      <dependency>
+        <groupId>com.io7m.junreachable</groupId>
+        <artifactId>com.io7m.junreachable.core</artifactId>
+        <version>4.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jmulticlose</groupId>
+        <artifactId>com.io7m.jmulticlose.core</artifactId>
+        <version>1.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jproperties</groupId>
+        <artifactId>com.io7m.jproperties.core</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.jdeferthrow</groupId>
+        <artifactId>com.io7m.jdeferthrow.core</artifactId>
+        <version>1.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.bundle</artifactId>
+        <version>2.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.versioning</artifactId>
+        <version>1.1.2</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>com.io7m.trasco</groupId>
-            <artifactId>com.io7m.trasco.api</artifactId>
-            <version>${com.io7m.trasco.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.io7m.trasco</groupId>
-            <artifactId>com.io7m.trasco.vanilla</artifactId>
-            <version>${com.io7m.trasco.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.io7m.trasco</groupId>
-            <artifactId>com.io7m.trasco.xml.schemas</artifactId>
-            <version>${com.io7m.trasco.version}</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <id>generate-sql</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <mainClass>com.io7m.trasco.vanilla.TrSchemaRevisionSetSQLMain</mainClass>
-              <includePluginDependencies>true</includePluginDependencies>
-              <includeProjectDependencies>false</includeProjectDependencies>
-              <arguments>
-                <argument>src/main/resources/com/io7m/mesquida/internal/database.xml</argument>
-                <argument>${project.build.directory}/database.sql</argument>
-              </arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.jooq</groupId>
-        <artifactId>jooq-codegen-maven</artifactId>
-        <version>${jooq.version}</version>
-        <configuration>
-          <configurationFile>src/main/jooq/configuration.xml</configurationFile>
-        </configuration>
-        <executions>
-          <execution>
-            <id>jooq-codegen</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-meta-extensions</artifactId>
-            <version>${jooq.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>add-jooq-sources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.build.directory}/generated-sources/jooq</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Produce command-line onejar -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <minimizeJar>false</minimizeJar>
-              <shadedClassifierName>main</shadedClassifierName>
-              <shadedArtifactAttached>true</shadedArtifactAttached>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <manifestEntries>
-                    <Main-Class>com.io7m.mesquida.Main</Main-Class>
-                  </manifestEntries>
-                </transformer>
-              </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Produce distribution. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>distribution</id>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <finalName>mesquida</finalName>
-              <attach>true</attach>
-              <descriptors>
-                <descriptor>src/main/assembly/distribution.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>io.github.zlika</groupId>
-        <artifactId>reproducible-build-maven-plugin</artifactId>
-      </plugin>
-
       <!-- Generate a site -->
       <plugin>
         <groupId>com.io7m.minisite</groupId>

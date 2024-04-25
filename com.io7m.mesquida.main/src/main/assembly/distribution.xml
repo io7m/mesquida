@@ -14,13 +14,15 @@
     <format>zip</format>
   </formats>
 
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>lib</outputDirectory>
+      <useProjectArtifact>true</useProjectArtifact>
+      <useTransitiveDependencies>true</useTransitiveDependencies>
+    </dependencySet>
+  </dependencySets>
+
   <files>
-    <file>
-      <source>target/com.io7m.mesquida-${project.version}-main.jar</source>
-      <outputDirectory>/lib</outputDirectory>
-      <fileMode>0644</fileMode>
-      <destName>mesquida.jar</destName>
-    </file>
     <file>
       <source>src/main/sh/mesquida</source>
       <outputDirectory>/bin</outputDirectory>

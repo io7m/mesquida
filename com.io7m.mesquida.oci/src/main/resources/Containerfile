@@ -1,0 +1,19 @@
+FROM docker.io/library/alpine:${com.io7m.oci.versionAlpine}
+FROM docker.io/library/eclipse-temurin:${com.io7m.oci.versionTemurin}
+
+ENV PATH="/mesquida/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/java/openjdk/bin"
+ENV MESQUIDA_HOME="/mesquida"
+ENV _JAVA_OPTIONS="-Dorg.sqlite.tmpdir=/mesquida/var"
+
+COPY mesquida /mesquida
+
+LABEL "org.opencontainers.image.authors"="Mark Raynsford"
+LABEL "org.opencontainers.image.description"="Mesquida server"
+LABEL "org.opencontainers.image.licenses"="ISC"
+LABEL "org.opencontainers.image.source"="https://www.github.com/io7m/mesquida"
+LABEL "org.opencontainers.image.title"="Mesquida"
+LABEL "org.opencontainers.image.url"="https://www.io7m.com/software/mesquida"
+LABEL "org.opencontainers.image.version"="${project.version}"
+LABEL "org.opencontainers.image.revision"="${buildNumber}"
+
+ENTRYPOINT ["/mesquida/bin/mesquida"]

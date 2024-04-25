@@ -7,6 +7,6 @@ then
 fi
 
 exec /usr/bin/env java \
--cp "${MESQUIDA_HOME}/lib/mesquida.jar" \
-com.io7m.mesquida.Main \
+-p "${MESQUIDA_HOME}/lib" \
+-m com.io7m.mesquida.main/com.io7m.mesquida.Main \
 "$@"
