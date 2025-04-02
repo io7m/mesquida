@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor.full</artifactId>
-    <version>8.2.0</version>
+    <version>8.4.0</version>
   </parent>
 
   <groupId>com.io7m.mesquida</groupId>
@@ -25,9 +25,8 @@
   </modules>
 
   <properties>
-    <!-- Configuration -->
-    <!-- https://issues.apache.org/jira/browse/MDEP-774 -->
     <mdep.analyze.skip>true</mdep.analyze.skip>
+
     <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
 
@@ -36,10 +35,14 @@
     <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
 
     <!-- Third-party dependencies. -->
-    <artemis.version>2.33.0</artemis.version>
-    <jackson.version>2.17.0</jackson.version>
-    <jetty.version>11.0.20</jetty.version>
-    <jooq.version>3.19.7</jooq.version>
+    <artemis.version>2.39.0</artemis.version>
+    <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
+    <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
+    <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
+    <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
+    <jackson.version>2.18.3</jackson.version>
+    <jetty.version>11.0.24</jetty.version>
+    <jooq.version>3.19.16</jooq.version>
     <junit.version>5.10.2</junit.version>
     <org.apache.derby.version>10.17.1.0</org.apache.derby.version>
 
@@ -174,7 +177,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-text</artifactId>
-        <version>1.12.0</version>
+        <version>1.13.0</version>
       </dependency>
 
       <dependency>
@@ -241,7 +244,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.16.1</version>
+        <version>2.18.0</version>
       </dependency>
 
       <dependency>
@@ -260,12 +263,12 @@
       <dependency>
         <groupId>com.io7m.junreachable</groupId>
         <artifactId>com.io7m.junreachable.core</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.2</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jmulticlose</groupId>
         <artifactId>com.io7m.jmulticlose.core</artifactId>
-        <version>1.1.2</version>
+        <version>1.1.3</version>
       </dependency>
       <dependency>
         <groupId>com.io7m.jproperties</groupId>
@@ -275,7 +278,7 @@
       <dependency>
         <groupId>com.io7m.jdeferthrow</groupId>
         <artifactId>com.io7m.jdeferthrow.core</artifactId>
-        <version>1.2.0</version>
+        <version>1.3.0</version>
       </dependency>
       <dependency>
         <groupId>org.osgi</groupId>
