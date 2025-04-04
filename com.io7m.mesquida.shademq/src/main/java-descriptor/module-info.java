@@ -1,6 +1,7 @@
 open module com.io7m.mesquida.shademq
 {
   requires java.naming;
+  requires org.slf4j;
 
   exports javax.jms;
 
