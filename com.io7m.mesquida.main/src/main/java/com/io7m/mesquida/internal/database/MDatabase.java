@@ -24,7 +24,7 @@ import com.io7m.trasco.api.TrExecutorConfiguration;
 import com.io7m.trasco.api.TrSchemaRevisionSet;
 import com.io7m.trasco.vanilla.TrExecutors;
 import com.io7m.trasco.vanilla.TrSchemaRevisionSetParsers;
-import org.apache.derby.jdbc.EmbeddedConnectionPoolDataSource;
+import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,10 +52,10 @@ public final class MDatabase implements Closeable
   private static final String LANG_SCHEMA_DOES_NOT_EXIST = "42Y07";
   private static final String LANG_TABLE_NOT_FOUND = "42X05";
 
-  private final EmbeddedConnectionPoolDataSource dataSource;
+  private final PGSimpleDataSource dataSource;
 
   private MDatabase(
-    final EmbeddedConnectionPoolDataSource inDataSource)
+    final PGSimpleDataSource inDataSource)
   {
     this.dataSource =
       Objects.requireNonNull(inDataSource, "dataSource");
@@ -75,10 +75,17 @@ public final class MDatabase implements Closeable
     final MDatabaseConfiguration configuration)
     throws Exception
   {
-    final var dataSource = new EmbeddedConnectionPoolDataSource();
-    dataSource.setDatabaseName(configuration.file().toString());
-    dataSource.setCreateDatabase("true");
-    dataSource.setConnectionAttributes("create=" + configuration.create());
+    final var dataSource = new PGSimpleDataSource();
+    dataSource.setServerNames(new String[]{
+      configuration.address(),
+    });
+    dataSource.setDatabaseName(configuration.databaseName());
+    dataSource.setUser(configuration.user());
+    dataSource.setPassword(configuration.password());
+    dataSource.setApplicationName("mesquida");
+    dataSource.setPortNumbers(new int[]{
+      configuration.port(),
+    });
 
     final var parsers =
       new TrSchemaRevisionSetParsers();
@@ -111,12 +118,12 @@ public final class MDatabase implements Closeable
   private static void showEvent(
     final TrEventType event)
   {
-    if (event instanceof TrEventExecutingSQL sql) {
+    if (event instanceof final TrEventExecutingSQL sql) {
       LOG.debug("executing: {}", sql);
       return;
     }
 
-    if (event instanceof TrEventUpgrading upgrading) {
+    if (event instanceof final TrEventUpgrading upgrading) {
       LOG.info(
         "upgrading database from version {} -> {}",
         upgrading.fromVersion(),
@@ -188,7 +195,7 @@ public final class MDatabase implements Closeable
     throws SQLException
   {
     final var connection =
-      this.dataSource.getPooledConnection().getConnection();
+      this.dataSource.getConnection();
     connection.setAutoCommit(false);
     return connection;
   }

@@ -42,6 +42,7 @@ module com.io7m.mesquida.main
   requires org.eclipse.jetty.server;
   requires org.eclipse.jetty.servlet;
   requires org.jooq;
+  requires org.postgresql.jdbc;
   requires org.slf4j;
   requires pircbotx;
 }

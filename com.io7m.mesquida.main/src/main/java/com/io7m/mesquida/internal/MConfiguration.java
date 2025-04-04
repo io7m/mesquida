@@ -84,8 +84,16 @@ public record MConfiguration(
         JProperties.getString(properties, "server.privateToken");
       final var sessionDirectory =
         JProperties.getString(properties, "server.sessionPath");
-      final var database =
-        JProperties.getString(properties, "database.path");
+      final var databaseAddress =
+        JProperties.getString(properties, "database.address");
+      final var databaseUser =
+        JProperties.getString(properties, "database.user");
+      final var databasePassword =
+        JProperties.getString(properties, "database.password");
+      final var databasePort =
+        JProperties.getInteger(properties, "database.port");
+      final var databaseName =
+        JProperties.getString(properties, "database.name");
       final var databaseCreate =
         JProperties.getBooleanWithDefault(properties, "database.create", true);
       final var databaseUpgrade =
@@ -102,7 +110,11 @@ public record MConfiguration(
           fs.getPath(sessionDirectory)
         ),
         new MDatabaseConfiguration(
-          fs.getPath(database),
+          databaseUser,
+          databasePassword,
+          databaseAddress,
+          databasePort,
+          databaseName,
           databaseUpgrade,
           databaseCreate
         )

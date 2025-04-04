@@ -16,35 +16,46 @@
 
 package com.io7m.mesquida.internal.database;
 
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
  * The main database service.
  *
- * @param file    The database file
- * @param upgrade {@code true} if the database should be automatically upgraded
- * @param create  {@code true} if the database should be created if it does not
- *                exist
+ * @param databaseName The database name
+ * @param address      The database address
+ * @param create       Create a database
+ * @param upgrade      Upgrade a database
+ * @param password     The database password
+ * @param port         The database port
+ * @param user         The database user
  */
 
 public record MDatabaseConfiguration(
-  Path file,
+  String user,
+  String password,
+  String address,
+  int port,
+  String databaseName,
   boolean upgrade,
   boolean create)
 {
   /**
    * The main database service.
    *
-   * @param file    The database file
-   * @param upgrade {@code true} if the database should be automatically
-   *                upgraded
-   * @param create  {@code true} if the database should be created if it does
-   *                not exist
+   * @param databaseName The database name
+   * @param address      The database address
+   * @param create       Create a database
+   * @param upgrade      Upgrade a database
+   * @param password     The database password
+   * @param port         The database port
+   * @param user         The database user
    */
 
   public MDatabaseConfiguration
   {
-    Objects.requireNonNull(file, "file");
+    Objects.requireNonNull(user, "user");
+    Objects.requireNonNull(password, "password");
+    Objects.requireNonNull(address, "address");
+    Objects.requireNonNull(databaseName, "databaseName");
   }
 }
