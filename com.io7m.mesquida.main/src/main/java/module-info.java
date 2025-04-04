@@ -44,4 +44,7 @@ module com.io7m.mesquida.main
   requires org.postgresql.jdbc;
   requires org.slf4j;
   requires pircbotx;
+
+  opens com.io7m.mesquida.main
+    to com.io7m.jxtrand.vanilla;
 }
