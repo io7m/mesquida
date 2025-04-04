@@ -37,7 +37,6 @@ module com.io7m.mesquida.main
   requires org.apache.commons.io;
   requires org.apache.commons.lang3;
   requires org.apache.commons.text;
-  requires org.apache.derby.tools;
   requires org.eclipse.jetty.jmx;
   requires org.eclipse.jetty.server;
   requires org.eclipse.jetty.servlet;
