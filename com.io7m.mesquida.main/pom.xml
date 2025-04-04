@@ -9,7 +9,7 @@
   <parent>
     <artifactId>com.io7m.mesquida</artifactId>
     <groupId>com.io7m.mesquida</groupId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>com.io7m.mesquida.main</artifactId>
