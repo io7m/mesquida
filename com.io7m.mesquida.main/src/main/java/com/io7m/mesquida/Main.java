@@ -16,14 +16,16 @@
 
 package com.io7m.mesquida;
 
-import com.io7m.claypot.core.CLPApplicationConfiguration;
-import com.io7m.claypot.core.Claypot;
 import com.io7m.mesquida.internal.cli.MCommandIRCBot;
 import com.io7m.mesquida.internal.cli.MCommandMatrixBot;
 import com.io7m.mesquida.internal.cli.MCommandServer;
+import com.io7m.quarrel.core.QApplication;
+import com.io7m.quarrel.core.QApplicationMetadata;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The main command-line entry point.
@@ -31,6 +33,9 @@ import java.net.URI;
 
 public final class Main
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(Main.class);
+
   private Main()
   {
 
@@ -59,19 +64,27 @@ public final class Main
   public static int mainExitless(
     final String[] args)
   {
-    final var configuration =
-      CLPApplicationConfiguration.builder()
-        .setLogger(LoggerFactory.getLogger(Main.class))
-        .setDocumentationURI(URI.create(
-          "https://www.io7m.com/software/mesquida/"))
-        .setProgramName("mesquida")
-        .addCommands(MCommandServer::new)
-        .addCommands(MCommandMatrixBot::new)
-        .addCommands(MCommandIRCBot::new)
-        .build();
+    final var builder =
+      QApplication.builder(
+        new QApplicationMetadata(
+          "mesquida",
+          "com.io7m.mesquida",
+          "1.0.0",
+          "cafebabe",
+          "The mesquida application.",
+          Optional.empty()
+        )
+      );
 
-    final var claypot = Claypot.create(configuration);
-    claypot.execute(args);
-    return claypot.exitCode();
+    builder.addCommand(new MCommandIRCBot());
+    builder.addCommand(new MCommandMatrixBot());
+    builder.addCommand(new MCommandServer());
+
+    final var application =
+      builder.build();
+    final var r =
+      application.run(LOG, List.of(args));
+
+    return r.exitCode();
   }
 }

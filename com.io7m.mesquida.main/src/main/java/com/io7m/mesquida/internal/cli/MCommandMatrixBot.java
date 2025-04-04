@@ -16,95 +16,143 @@
 
 package com.io7m.mesquida.internal.cli;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
-import com.io7m.claypot.core.CLPAbstractCommand;
-import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.mesquida.internal.matrix.MMatrixService;
 import com.io7m.mesquida.internal.matrix.MMatrixServiceConfiguration;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QCommandType;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The "matrix bot" command.
  */
 
-@Parameters(commandDescription = "Run the Matrix bot.")
-public final class MCommandMatrixBot extends CLPAbstractCommand
+public final class MCommandMatrixBot implements QCommandType
 {
-  @Parameter(
-    names = "--brokerURL",
-    description = "The message broker URI",
-    required = true)
-  private URI brokerURL;
+  private static final QParameterNamed1<URI> BROKER_URL =
+    new QParameterNamed1<>(
+      "--brokerURL",
+      List.of(),
+      new QStringType.QConstant("The message broker URI"),
+      Optional.empty(),
+      URI.class
+    );
 
-  @Parameter(
-    names = "--brokerUser",
-    description = "The message broker user",
-    required = true)
-  private String brokerUser;
+  private static final QParameterNamed1<String> BROKER_USER =
+    new QParameterNamed1<>(
+      "--brokerUser",
+      List.of(),
+      new QStringType.QConstant("The message broker user"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--brokerPassword",
-    description = "The message broker password",
-    required = true)
-  private String brokerPassword;
+  private static final QParameterNamed1<String> BROKER_PASSWORD =
+    new QParameterNamed1<>(
+      "--brokerPassword",
+      List.of(),
+      new QStringType.QConstant("The message broker password"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--brokerTopic",
-    description = "The message broker topic",
-    required = true)
-  private String brokerTopic;
+  private static final QParameterNamed1<String> BROKER_TOPIC =
+    new QParameterNamed1<>(
+      "--brokerTopic",
+      List.of(),
+      new QStringType.QConstant("The message broker topic"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--matrixServer",
-    description = "The matrix server base URI",
-    required = true)
-  private URI matrixServerBase;
+  private static final QParameterNamed1<URI> MATRIX_SERVER =
+    new QParameterNamed1<>(
+      "--matrixServer",
+      List.of(),
+      new QStringType.QConstant("The matrix server base URI"),
+      Optional.empty(),
+      URI.class
+    );
 
-  @Parameter(
-    names = "--matrixUser",
-    description = "The matrix server user",
-    required = true)
-  private String matrixUser;
+  private static final QParameterNamed1<String> MATRIX_USER =
+    new QParameterNamed1<>(
+      "--matrixUser",
+      List.of(),
+      new QStringType.QConstant("The matrix server user"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--matrixPassword",
-    description = "The matrix server password",
-    required = true)
-  private String matrixPassword;
+  private static final QParameterNamed1<String> MATRIX_PASSWORD =
+    new QParameterNamed1<>(
+      "--matrixPassword",
+      List.of(),
+      new QStringType.QConstant("The matrix server password"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--matrixChannel",
-    description = "The matrix server channel",
-    required = true)
-  private String matrixChannel;
+  private static final QParameterNamed1<String> MATRIX_CHANNEL =
+    new QParameterNamed1<>(
+      "--matrixChannel",
+      List.of(),
+      new QStringType.QConstant("The matrix server channel"),
+      Optional.empty(),
+      String.class
+    );
+
+  private final QCommandMetadata metadata;
 
   /**
    * Construct a command.
-   *
-   * @param inContext The context
    */
 
-  public MCommandMatrixBot(
-    final CLPCommandContextType inContext)
+  public MCommandMatrixBot()
   {
-    super(inContext);
+    this.metadata =
+      new QCommandMetadata(
+        "matrix-bot",
+        new QStringType.QConstant("Run the Matrix bot."),
+        Optional.empty()
+      );
   }
 
   @Override
-  protected Status executeActual()
+  public List<QParameterNamedType<?>> onListNamedParameters()
+  {
+    return List.of(
+      BROKER_PASSWORD,
+      BROKER_TOPIC,
+      BROKER_URL,
+      BROKER_USER,
+      MATRIX_CHANNEL,
+      MATRIX_PASSWORD,
+      MATRIX_SERVER,
+      MATRIX_USER
+    );
+  }
+
+  @Override
+  public QCommandStatus onExecute(
+    final QCommandContextType context)
   {
     final var configuration =
       new MMatrixServiceConfiguration(
-        this.brokerURL,
-        this.brokerUser,
-        this.brokerPassword,
-        this.brokerTopic,
-        this.matrixServerBase,
-        this.matrixUser,
-        this.matrixPassword,
-        this.matrixChannel.replace("\\", "")
+        context.parameterValue(BROKER_URL),
+        context.parameterValue(BROKER_USER),
+        context.parameterValue(BROKER_PASSWORD),
+        context.parameterValue(BROKER_TOPIC),
+        context.parameterValue(MATRIX_SERVER),
+        context.parameterValue(MATRIX_USER),
+        context.parameterValue(MATRIX_PASSWORD),
+        context.parameterValue(MATRIX_CHANNEL).replace("\\", "")
       );
 
     try (var ignored = MMatrixService.create(configuration)) {
@@ -119,8 +167,8 @@ public final class MCommandMatrixBot extends CLPAbstractCommand
   }
 
   @Override
-  public String name()
+  public QCommandMetadata metadata()
   {
-    return "matrix-bot";
+    return this.metadata;
   }
 }

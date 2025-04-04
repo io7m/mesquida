@@ -179,7 +179,7 @@ public final class MIRCService extends ListenerAdapter
             break;
           }
 
-          if (command instanceof CommandJMSReceived message) {
+          if (command instanceof final CommandJMSReceived message) {
             this.handleMessage(message.message);
             continue;
           }
@@ -263,14 +263,21 @@ public final class MIRCService extends ListenerAdapter
   {
     super.onConnectAttemptFailed(event);
 
-    event.getConnectExceptions().forEach(
-      (address, exception) ->
-        LOG.error(
-          "connection failed: {} - {}",
-          address,
-          exception.getClass().getCanonicalName(),
-          exception.getMessage())
-    );
+    final var exceptions =
+      event.getConnectExceptions();
+
+    for (final var entry : exceptions.entrySet()) {
+      final var address =
+        entry.getKey();
+      final var exception =
+        entry.getValue();
+      LOG.error(
+        "connection failed: {} - {}",
+        address,
+        exception.getClass().getCanonicalName(),
+        exception.getMessage()
+      );
+    }
   }
 
   @Override
@@ -296,7 +303,7 @@ public final class MIRCService extends ListenerAdapter
     final Message message)
     throws JMSException, IOException, InterruptedException
   {
-    if (message instanceof TextMessage textMessage) {
+    if (message instanceof final TextMessage textMessage) {
       final MMessageFormatted parsed;
       try {
         parsed = this.queueMessageMapper.readValue(

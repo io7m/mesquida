@@ -16,109 +16,168 @@
 
 package com.io7m.mesquida.internal.cli;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
-import com.io7m.claypot.core.CLPAbstractCommand;
-import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.mesquida.internal.irc.MIRCService;
 import com.io7m.mesquida.internal.irc.MIRCServiceConfiguration;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QCommandType;
+import com.io7m.quarrel.core.QParameterNamed01;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType;
+import com.io7m.quarrel.core.QStringType.QConstant;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The "irc bot" command.
  */
 
-@Parameters(commandDescription = "Run the IRC bot.")
-public final class MCommandIRCBot extends CLPAbstractCommand
+public final class MCommandIRCBot implements QCommandType
 {
-  @Parameter(
-    names = "--brokerURL",
-    description = "The message broker URI",
-    required = true)
-  private URI brokerURL;
+  private static final QParameterNamed1<URI> BROKER_URL =
+    new QParameterNamed1<>(
+      "--brokerURL",
+      List.of(),
+      new QStringType.QConstant("The message broker URI"),
+      Optional.empty(),
+      URI.class
+    );
 
-  @Parameter(
-    names = "--brokerUser",
-    description = "The message broker user",
-    required = true)
-  private String brokerUser;
+  private static final QParameterNamed1<String> BROKER_USER =
+    new QParameterNamed1<>(
+      "--brokerUser",
+      List.of(),
+      new QStringType.QConstant("The message broker user"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--brokerPassword",
-    description = "The message broker password",
-    required = true)
-  private String brokerPassword;
+  private static final QParameterNamed1<String> BROKER_PASSWORD =
+    new QParameterNamed1<>(
+      "--brokerPassword",
+      List.of(),
+      new QStringType.QConstant("The message broker password"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--brokerTopic",
-    description = "The message broker topic",
-    required = true)
-  private String brokerTopic;
+  private static final QParameterNamed1<String> BROKER_TOPIC =
+    new QParameterNamed1<>(
+      "--brokerTopic",
+      List.of(),
+      new QStringType.QConstant("The message broker topic"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--ircServer",
-    description = "The IRC server hostname",
-    required = true)
-  private String ircServer;
+  private static final QParameterNamed1<String> IRC_SERVER =
+    new QParameterNamed1<>(
+      "--ircServer",
+      List.of(),
+      new QStringType.QConstant("The IRC server hostname"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--ircPort",
-    description = "The IRC server port",
-    required = false)
-  private int ircPort = 6667;
+  private static final QParameterNamed1<Integer> IRC_PORT =
+    new QParameterNamed1<>(
+      "--ircPort",
+      List.of(),
+      new QStringType.QConstant("The IRC server port"),
+      Optional.of(6667),
+      Integer.class
+    );
 
-  @Parameter(
-    names = "--ircUser",
-    description = "The IRC server user",
-    required = true)
-  private String ircUser;
+  private static final QParameterNamed1<String> IRC_USER =
+    new QParameterNamed1<>(
+      "--ircUser",
+      List.of(),
+      new QStringType.QConstant("The IRC server user"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--ircPassword",
-    description = "The IRC server password",
-    required = false)
-  private String ircPassword = "";
+  private static final QParameterNamed01<String> IRC_PASSWORD =
+    new QParameterNamed01<>(
+      "--ircPassword",
+      List.of(),
+      new QStringType.QConstant("The IRC server password"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--ircChannel",
-    description = "The IRC server channel",
-    required = true)
-  private String ircChannel;
+  private static final QParameterNamed1<String> IRC_CHANNEL =
+    new QParameterNamed1<>(
+      "--ircChannel",
+      List.of(),
+      new QStringType.QConstant("The IRC server channel"),
+      Optional.empty(),
+      String.class
+    );
 
-  @Parameter(
-    names = "--ircTrust",
-    description = "Trust all IRC server certificates (unsafe!)",
-    required = false)
-  private boolean ircTrust;
+  private static final QParameterNamed1<Boolean> IRC_TRUST =
+    new QParameterNamed1<>(
+      "--ircTrust",
+      List.of(),
+      new QStringType.QConstant("Trust all IRC server certificates (unsafe!)"),
+      Optional.of(Boolean.FALSE),
+      Boolean.class
+    );
+
+  private final QCommandMetadata metadata;
 
   /**
    * Construct a command.
-   *
-   * @param inContext The context
    */
 
-  public MCommandIRCBot(
-    final CLPCommandContextType inContext)
+  public MCommandIRCBot()
   {
-    super(inContext);
+    this.metadata =
+      new QCommandMetadata(
+        "irc-bot",
+        new QConstant("Run the IRC bot."),
+        Optional.empty()
+      );
   }
 
   @Override
-  protected Status executeActual()
+  public List<QParameterNamedType<?>> onListNamedParameters()
+  {
+    return List.of(
+      BROKER_PASSWORD,
+      BROKER_TOPIC,
+      BROKER_URL,
+      BROKER_USER,
+      IRC_CHANNEL,
+      IRC_PASSWORD,
+      IRC_PORT,
+      IRC_SERVER,
+      IRC_TRUST,
+      IRC_USER
+    );
+  }
+
+  @Override
+  public QCommandStatus onExecute(
+    final QCommandContextType context)
+    throws Exception
   {
     final var configuration =
       new MIRCServiceConfiguration(
-        this.brokerURL,
-        this.brokerUser,
-        this.brokerPassword,
-        this.brokerTopic,
-        this.ircServer,
-        this.ircPort,
-        this.ircChannel.replace("\\", ""),
-        this.ircUser,
-        this.ircUser,
-        this.ircTrust
+        context.parameterValue(BROKER_URL),
+        context.parameterValue(BROKER_USER),
+        context.parameterValue(BROKER_PASSWORD),
+        context.parameterValue(BROKER_TOPIC),
+        context.parameterValue(IRC_SERVER),
+        context.parameterValue(IRC_PORT),
+        context.parameterValue(IRC_CHANNEL).replace("\\", ""),
+        context.parameterValue(IRC_USER),
+        context.parameterValue(IRC_USER),
+        context.parameterValue(IRC_TRUST)
       );
 
     try (var ignored = MIRCService.create(configuration)) {
@@ -133,8 +192,8 @@ public final class MCommandIRCBot extends CLPAbstractCommand
   }
 
   @Override
-  public String name()
+  public QCommandMetadata metadata()
   {
-    return "irc-bot";
+    return this.metadata;
   }
 }

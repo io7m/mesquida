@@ -16,51 +16,66 @@
 
 package com.io7m.mesquida.internal.cli;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
-import com.io7m.claypot.core.CLPAbstractCommand;
-import com.io7m.claypot.core.CLPCommandContextType;
 import com.io7m.mesquida.internal.MConfiguration;
 import com.io7m.mesquida.internal.MServerMain;
 import com.io7m.mesquida.internal.database.MDatabase;
+import com.io7m.quarrel.core.QCommandContextType;
+import com.io7m.quarrel.core.QCommandMetadata;
+import com.io7m.quarrel.core.QCommandStatus;
+import com.io7m.quarrel.core.QCommandType;
+import com.io7m.quarrel.core.QParameterNamed1;
+import com.io7m.quarrel.core.QParameterNamedType;
+import com.io7m.quarrel.core.QStringType;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The "server" command.
  */
 
-@Parameters(commandDescription = "Run the server.")
-public final class MCommandServer extends CLPAbstractCommand
+public final class MCommandServer implements QCommandType
 {
-  /**
-   * The server configuration file.
-   */
+  private final QCommandMetadata metadata;
 
-  @Parameter(
-    names = "--configuration",
-    description = "The configuration file",
-    required = true)
-  private Path configurationFile;
+  private static final QParameterNamed1<Path> CONFIGURATION_FILE =
+    new QParameterNamed1<>(
+      "--configuration",
+      List.of(),
+      new QStringType.QConstant("The configuration file."),
+      Optional.empty(),
+      Path.class
+    );
 
   /**
    * Construct a command.
-   *
-   * @param inContext The context
    */
 
-  public MCommandServer(
-    final CLPCommandContextType inContext)
+  public MCommandServer()
   {
-    super(inContext);
+    this.metadata =
+      new QCommandMetadata(
+        "server",
+        new QStringType.QConstant("Run the server."),
+        Optional.empty()
+      );
   }
 
   @Override
-  protected Status executeActual()
+  public List<QParameterNamedType<?>> onListNamedParameters()
+  {
+    return List.of(CONFIGURATION_FILE);
+  }
+
+  @Override
+  public QCommandStatus onExecute(
+    final QCommandContextType context)
     throws Exception
   {
     final var configuration =
-      MConfiguration.open(this.configurationFile);
+      MConfiguration.open(context.parameterValue(CONFIGURATION_FILE));
+
     try (var database = MDatabase.open(configuration.database())) {
       try (var server = MServerMain.create(configuration.http(), database)) {
         server.start();
@@ -72,8 +87,8 @@ public final class MCommandServer extends CLPAbstractCommand
   }
 
   @Override
-  public String name()
+  public QCommandMetadata metadata()
   {
-    return "server";
+    return this.metadata;
   }
 }

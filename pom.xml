@@ -22,6 +22,7 @@
   <modules>
     <module>com.io7m.mesquida.main</module>
     <module>com.io7m.mesquida.oci</module>
+    <module>com.io7m.mesquida.shademq</module>
   </modules>
 
   <properties>
@@ -33,11 +34,12 @@
     <!-- io7m dependencies. -->
     <com.io7m.jxtrand.version>2.0.0</com.io7m.jxtrand.version>
     <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
+    <com.io7m.quarrel.version>1.6.1</com.io7m.quarrel.version>
+    <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
+    <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
 
     <!-- Third-party dependencies. -->
     <artemis.version>2.39.0</artemis.version>
-    <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
-    <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
     <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
     <jackson.version>2.18.3</jackson.version>
@@ -143,19 +145,11 @@
       </dependency>
 
       <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
         <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>${jackson.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
 
       <dependency>
@@ -172,12 +166,6 @@
         <groupId>org.apache.derby</groupId>
         <artifactId>derbynet</artifactId>
         <version>${org.apache.derby.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-text</artifactId>
-        <version>1.13.0</version>
       </dependency>
 
       <dependency>
@@ -203,9 +191,14 @@
       </dependency>
 
       <dependency>
-        <groupId>com.io7m.claypot</groupId>
-        <artifactId>com.io7m.claypot.core</artifactId>
-        <version>0.0.8</version>
+        <groupId>com.io7m.quarrel</groupId>
+        <artifactId>com.io7m.quarrel.core</artifactId>
+        <version>${com.io7m.quarrel.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.quarrel</groupId>
+        <artifactId>com.io7m.quarrel.ext.logback</artifactId>
+        <version>${com.io7m.quarrel.version}</version>
       </dependency>
 
       <dependency>
@@ -245,6 +238,16 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.18.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.17.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-text</artifactId>
+        <version>1.13.0</version>
       </dependency>
 
       <dependency>
@@ -294,6 +297,16 @@
   </dependencyManagement>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.moditect</groupId>
+          <artifactId>moditect-maven-plugin</artifactId>
+          <version>1.2.1.Final</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <!-- Generate a site -->
       <plugin>

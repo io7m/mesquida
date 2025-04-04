@@ -20,6 +20,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>com.io7m.mesquida.shademq</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <exclusions>
@@ -33,19 +39,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>artemis-core-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>artemis-commons</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>artemis-jms-client</artifactId>
     </dependency>
 
     <dependency>
@@ -101,10 +94,13 @@
       <groupId>com.io7m.trasco</groupId>
       <artifactId>com.io7m.trasco.xml.schemas</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>com.io7m.claypot</groupId>
-      <artifactId>com.io7m.claypot.core</artifactId>
+      <groupId>com.io7m.quarrel</groupId>
+      <artifactId>com.io7m.quarrel.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.quarrel</groupId>
+      <artifactId>com.io7m.quarrel.ext.logback</artifactId>
     </dependency>
 
     <dependency>
@@ -137,6 +133,10 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
     </dependency>
 
     <dependency>
