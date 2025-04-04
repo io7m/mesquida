@@ -25,6 +25,7 @@ import com.io7m.trasco.api.TrSchemaRevisionSet;
 import com.io7m.trasco.vanilla.TrExecutors;
 import com.io7m.trasco.vanilla.TrSchemaRevisionSetParsers;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.postgresql.util.PSQLState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -173,15 +174,11 @@ public final class MDatabase implements Closeable
       if (state == null) {
         throw e;
       }
-      switch (state) {
-        case LANG_SCHEMA_DOES_NOT_EXIST:
-        case LANG_TABLE_NOT_FOUND: {
-          return Optional.empty();
-        }
-        default: {
-          throw e;
-        }
+      if (state.equals(PSQLState.UNDEFINED_TABLE.getState())) {
+        connection.rollback();
+        return Optional.empty();
       }
+      throw e;
     }
   }
 
