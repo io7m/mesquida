@@ -45,6 +45,13 @@ module com.io7m.mesquida.main
   requires org.slf4j;
   requires pircbotx;
 
+  opens com.io7m.mesquida.internal.database.tables.records
+    to org.jooq;
+  opens com.io7m.mesquida.internal.database.tables
+    to org.jooq;
+  opens com.io7m.mesquida.internal.database
+    to org.jooq;
+
   opens com.io7m.mesquida.internal
     to com.io7m.jxtrand.vanilla;
 }

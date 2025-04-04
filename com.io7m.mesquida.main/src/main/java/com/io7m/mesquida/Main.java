@@ -64,6 +64,8 @@ public final class Main
   public static int mainExitless(
     final String[] args)
   {
+    System.setProperty("org.jooq.no-logo", "true");
+
     final var builder =
       QApplication.builder(
         new QApplicationMetadata(
