@@ -33,10 +33,9 @@
 
     <!-- io7m dependencies. -->
     <com.io7m.jxtrand.version>2.0.0</com.io7m.jxtrand.version>
-    <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
     <com.io7m.quarrel.version>1.6.1</com.io7m.quarrel.version>
     <com.io7m.jxtrand.version>2.1.0</com.io7m.jxtrand.version>
-    <com.io7m.trasco.version>1.1.0</com.io7m.trasco.version>
+    <com.io7m.trasco.version>3.0.0</com.io7m.trasco.version>
 
     <!-- Third-party dependencies. -->
     <artemis.version>2.39.0</artemis.version>
