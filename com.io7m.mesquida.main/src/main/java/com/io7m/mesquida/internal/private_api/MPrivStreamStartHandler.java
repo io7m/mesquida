@@ -25,7 +25,6 @@ import com.io7m.mesquida.internal.mq.MMessageStreamStarted;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
-import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +95,7 @@ public final class MPrivStreamStartHandler extends MPrivAuthenticatedHandler
 
     try (var connection = this.database.openConnection()) {
       final var context =
-        DSL.using(connection, SQLDialect.DERBY);
+        DSL.using(connection, MDatabase.DIALECT);
 
       final var stream =
         context.fetchOne(STREAMS, STREAMS.STREAM_NAME.eq(command.name));

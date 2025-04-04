@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
@@ -223,7 +222,7 @@ public abstract class MPubAuthenticatedHandler extends HttpServlet
     try (var connection = this.database.openConnection()) {
       try {
         final var context =
-          DSL.using(connection, SQLDialect.DERBY);
+          DSL.using(connection, MDatabase.DIALECT);
 
         final var user =
           context.fetchOne(USERS, USERS.USER_NAME.eq(tryUserName));

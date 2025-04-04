@@ -24,7 +24,6 @@ import com.io7m.mesquida.internal.mq.MMessageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
-import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +94,7 @@ public final class MPrivMessageQueuePutHandler extends MPrivAuthenticatedHandler
 
     try (var connection = this.database.openConnection()) {
       final var context =
-        DSL.using(connection, SQLDialect.DERBY);
+        DSL.using(connection, MDatabase.DIALECT);
 
       final var existing = context.fetchOne(MESSAGE_QUEUE);
       existing.setMqPassword(command.password);

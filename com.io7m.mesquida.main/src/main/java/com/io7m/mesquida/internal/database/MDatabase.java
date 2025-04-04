@@ -24,6 +24,7 @@ import com.io7m.trasco.api.TrExecutorConfiguration;
 import com.io7m.trasco.api.TrSchemaRevisionSet;
 import com.io7m.trasco.vanilla.TrExecutors;
 import com.io7m.trasco.vanilla.TrSchemaRevisionSetParsers;
+import org.jooq.SQLDialect;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.postgresql.util.PSQLState;
 import org.slf4j.Logger;
@@ -50,8 +51,12 @@ public final class MDatabase implements Closeable
   private static final Logger LOG =
     LoggerFactory.getLogger(MDatabase.class);
 
-  private static final String LANG_SCHEMA_DOES_NOT_EXIST = "42Y07";
-  private static final String LANG_TABLE_NOT_FOUND = "42X05";
+  /**
+   * The SQL database dialect.
+   */
+
+  public static final SQLDialect DIALECT =
+    SQLDialect.POSTGRES;
 
   private final PGSimpleDataSource dataSource;
 

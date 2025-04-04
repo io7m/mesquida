@@ -26,7 +26,6 @@ import com.io7m.mesquida.internal.database.MDatabase;
 import org.apache.activemq.artemis.api.core.TransportConfiguration;
 import org.apache.activemq.artemis.api.jms.ActiveMQJMSClient;
 import org.apache.activemq.artemis.core.remoting.impl.netty.NettyConnectorFactory;
-import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -271,7 +270,7 @@ public final class MMessageService implements AutoCloseable, Runnable
     final BrokerConfiguration brokerConfiguration;
     try (var connection = this.database.openConnection()) {
       final var context =
-        DSL.using(connection, SQLDialect.DERBY);
+        DSL.using(connection, MDatabase.DIALECT);
       final var mqConfiguration =
         context.fetchOne(MESSAGE_QUEUE);
       connection.rollback();

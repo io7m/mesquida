@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import static com.io7m.mesquida.internal.database.Tables.STREAMS;
 import static com.io7m.mesquida.internal.database.Tables.STREAM_ADDRESSES;
 import static com.io7m.mesquida.internal.database.Tables.USERS;
-import static org.jooq.SQLDialect.DERBY;
 
 /**
  * A server root handler.
@@ -69,7 +68,7 @@ public final class MPubRootHandler extends MPubAuthenticatedHandler
     try (var connection = this.database().openConnection()) {
       try {
         final var context =
-          DSL.using(connection, DERBY);
+          DSL.using(connection, MDatabase.DIALECT);
 
         final var streams =
           context.select()

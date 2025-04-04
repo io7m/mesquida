@@ -28,7 +28,6 @@ import java.io.IOException;
 
 import static com.io7m.mesquida.internal.database.Tables.STREAMS;
 import static com.io7m.mesquida.internal.database.Tables.USERS;
-import static org.jooq.SQLDialect.DERBY;
 
 /**
  * A server root handler.
@@ -84,7 +83,7 @@ public final class MPubStreamEditHandler extends MPubAuthenticatedHandler
         }
 
         final var context =
-          DSL.using(connection, DERBY);
+          DSL.using(connection, MDatabase.DIALECT);
 
         final var stream =
           context.select()
