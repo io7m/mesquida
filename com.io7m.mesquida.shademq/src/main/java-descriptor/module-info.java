@@ -3,6 +3,8 @@ open module com.io7m.mesquida.shademq
   requires java.naming;
   requires org.slf4j;
 
+  uses org.apache.commons.logging.LogFactory;
+
   exports javax.jms;
 
   exports org.apache.activemq.artemis.api.core;
