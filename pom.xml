@@ -53,8 +53,8 @@
     <org.apache.derby.version>10.17.1.0</org.apache.derby.version>
 
     <!-- Container dependencies. -->
-    <com.io7m.oci.versionAlpine>3.18.2</com.io7m.oci.versionAlpine>
-    <com.io7m.oci.versionTemurin>21_35-jre-alpine</com.io7m.oci.versionTemurin>
+    <com.io7m.oci.versionAlpine>3.21.3</com.io7m.oci.versionAlpine>
+    <com.io7m.oci.versionTemurin>24_36-jre-alpine-3.21</com.io7m.oci.versionTemurin>
   </properties>
 
   <licenses>
