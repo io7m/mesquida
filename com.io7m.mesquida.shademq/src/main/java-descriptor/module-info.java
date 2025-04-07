@@ -2,6 +2,7 @@ open module com.io7m.mesquida.shademq
 {
   requires java.desktop;
   requires java.logging;
+  requires java.management;
   requires java.naming;
   requires java.sql;
   requires org.slf4j;
