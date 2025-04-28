@@ -292,6 +292,9 @@ public final class MMessageService implements AutoCloseable, Runnable
   enum CmdConfigurationChanged
     implements CommandType
   {
+    /**
+     * The configuration changed.
+     */
     CMD_CONFIGURATION_CHANGED
   }
 
