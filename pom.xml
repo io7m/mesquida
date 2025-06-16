@@ -46,7 +46,7 @@
     <artemis.version>2.41.0</artemis.version>
     <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
-    <jackson.version>2.19.0</jackson.version>
+    <jackson.version>2.19.1</jackson.version>
     <jetty.version>11.0.25</jetty.version>
     <jooq.version>3.20.4</jooq.version>
     <junit.version>5.13.0</junit.version>
