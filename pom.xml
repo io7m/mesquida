@@ -32,7 +32,7 @@
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
 
     <!-- io7m dependencies. -->
-    <com.io7m.dixmont.version>2.0.0</com.io7m.dixmont.version>
+    <com.io7m.dixmont.version>2.1.0</com.io7m.dixmont.version>
     <com.io7m.jdeferthrow.version>1.3.0</com.io7m.jdeferthrow.version>
     <com.io7m.jmulticlose.version>1.1.3</com.io7m.jmulticlose.version>
     <com.io7m.jproperties.version>4.0.0</com.io7m.jproperties.version>
