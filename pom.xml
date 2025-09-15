@@ -48,7 +48,7 @@
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
     <jackson.version>2.20.0</jackson.version>
     <jetty.version>11.0.26</jetty.version>
-    <jooq.version>3.20.6</jooq.version>
+    <jooq.version>3.20.7</jooq.version>
     <junit.version>5.13.4</junit.version>
     <org.apache.derby.version>10.17.1.0</org.apache.derby.version>
 
