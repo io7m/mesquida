@@ -43,7 +43,7 @@
     <com.io7m.trasco.version>3.1.1</com.io7m.trasco.version>
 
     <!-- Third-party dependencies. -->
-    <artemis.version>2.42.0</artemis.version>
+    <artemis.version>2.43.0</artemis.version>
     <io7m.api.previousVersion>0.0.3-SNAPSHOT</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
     <jackson.version>2.20.0</jackson.version>
